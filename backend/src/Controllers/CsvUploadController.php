@@ -27,7 +27,7 @@ class CsvUploadController
             return []; // Only header or empty
         }
 
-        $headers = str_getcsv($lines[0]);
+        $headers = str_getcsv($lines[0], ',', '"', '');
         $data = [];
 
         for ($i = 1; $i < count($lines); $i++)
@@ -38,7 +38,7 @@ class CsvUploadController
                 continue;
             }
 
-            $row = str_getcsv($line);
+            $row = str_getcsv($line, ',', '"', '');
             $rowData = [];
 
             foreach ($headers as $index => $header)
@@ -65,7 +65,7 @@ class CsvUploadController
             return false;
         }
 
-        $headers = str_getcsv($lines[0]);
+        $headers = str_getcsv($lines[0], ',', '"', '');
 
         foreach ($requiredHeaders as $required)
         {
@@ -154,9 +154,7 @@ class CsvUploadController
                 $companyId = $companyCache[$companyName];
 
                 // Insert employee
-                $stmt = $this->pdo->prepare(
-                    "INSERT INTO employees (company_id, full_name, email, salary) VALUES (?, ?, ?, ?)"
-                );
+                $stmt = $this->pdo->prepare("INSERT INTO employees (company_id, full_name, email, salary) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$companyId, $employeeName, $email, $salary]);
                 $stats['employees_imported']++;
             }

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Controllers\EmployeeController;
 use Controllers\CompanyController;
+use Controllers\CsvUploadController;
 use Database\Connection;
 
 header('Content-Type: application/json');
@@ -28,6 +29,7 @@ $pathParts = array_values($pathParts);
 $connection = new Connection();
 $employeeController = new EmployeeController($connection);
 $companyController = new CompanyController($connection);
+$csvUploadController = new CsvUploadController($connection);
 
 try
 {
@@ -246,6 +248,45 @@ try
                 'message' => 'Company not found'
             ]);
         }
+        exit;
+    }
+
+    // Route: POST /csv/upload - Upload CSV file
+    if ($requestMethod === 'POST' && count($pathParts) === 2 && $pathParts[0] === 'csv' && $pathParts[1] === 'upload')
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($input['csv_content']))
+        {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required field: csv_content'
+            ]);
+            exit;
+        }
+
+        $csvContent = $input['csv_content'];
+
+        // Validate CSV headers
+        if (!$csvUploadController->validateCsvHeaders($csvContent))
+        {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid CSV headers. Required headers: Company Name, Employee Name, Email Address, Salary'
+            ]);
+            exit;
+        }
+
+        // Import CSV
+        $result = $csvUploadController->importFromCsv($csvContent);
+
+        http_response_code(200);
+        echo json_encode([
+            'success' => true,
+            'data' => $result
+        ]);
         exit;
     }
 

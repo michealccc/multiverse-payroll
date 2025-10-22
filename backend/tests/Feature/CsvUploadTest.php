@@ -181,3 +181,15 @@ test('validates employee data before import', function ()
         ->and($result['employees_imported'])->toBe(1)
         ->and($result['employees_failed'])->toBe(1);
 });
+
+test('provides required fields in import result', function ()
+{
+    $csvContent = "Company Name,Employee Name,Email Address,Salary
+                   CSV Test Corp,User 1,user1@csvtest.com,40000
+                   CSV Test Corp,User 2,user2@csvtest.com,50000
+                   CSV Test Corp,User 3,user3@csvtest.com,60000";
+
+    $result = $this->controller->importFromCsv($csvContent);
+
+    expect($result)->toHaveKeys(['success', 'companies_created', 'employees_imported', 'employees_failed', 'errors', 'total_rows']);
+});
