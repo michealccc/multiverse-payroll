@@ -29,7 +29,7 @@ A comprehensive employee and company management system with RESTful API and CSV 
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/michealccc/multiverse-payroll.git
    cd multiverse-payroll
    ```
 
@@ -53,26 +53,71 @@ A comprehensive employee and company management system with RESTful API and CSV 
 
 ### Access the Application
 
-- **API Endpoint:** http://localhost:9090/api
-- **Database:** localhost:3307
+- **Web Application:** <http://localhost:9090>
+- **API Endpoint:** <http://localhost:9090/api>
+- **Database:** localhost:3307 (username: `multiverse_user`, password: `multiverse_password`)
 
+The application includes:
+
+- **Home:** Landing page
+- **Companies:** View all companies with employee count and average salary
+- **Employees:** View and edit employee email addresses
+- **CSV Import:** Upload CSV files to import employees and companies
+
+## Features
+
+### Core Requirements
+
+1. **CSV File Upload** - Web interface to accept and upload CSV files
+2. **Database Import** - Automatic import of companies and employees from CSV
+3. **Employee List** - Display all employees with their details
+4. **Edit Email** - Inline editing of employee email addresses with validation
+5. **Average Salary** - Display average salary for each company
 
 ## Testing
 
-### Run All Tests
+### Backend Tests (PHP/Pest)
+
+**Run all backend tests:**
 
 ```bash
-docker exec multiverse_backend composer test
+docker exec multiverse_backend ./vendor/bin/pest
 ```
 
-### Run Specific Test Suites
+**Run with coverage:**
 
 ```bash
-# Unit tests only
-docker exec multiverse_backend composer test:unit
+docker exec multiverse_backend ./vendor/bin/pest --coverage
+```
 
-# Feature tests only
-docker exec multiverse_backend composer test:feature
+**Test Statistics:**
+
+- Tests include: CRUD operations, employee counts, average salary calculations, CSV validation
+
+### Frontend Tests (Vue/Vitest)
+
+**Run all frontend tests:**
+
+```bash
+cd frontend && npm run test:unit
+```
+
+**Test Statistics:**
+
+- Tests include: HTTP service, employee service, company service, CSV upload, component rendering
+
+### Code Quality
+
+**Run linting:**
+
+```bash
+cd frontend && npm run lint
+```
+
+**Run formatting:**
+
+```bash
+cd frontend && npm run format
 ```
 
 ## CSV Import Format
@@ -95,7 +140,141 @@ Wayne Enterprises,Dick Grayson,dick@wayneenterprises.com,60000
 Wayne Enterprises,Barbara Gordon,barbara@wayneenterprises.com,55000
 ```
 
+## API Documentation
+
+### Base URL
+
+```
+http://localhost:9090/api
+```
+
+### Endpoints
+
+#### Employees
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/employees` | Get all employees |
+| GET | `/employees/{id}` | Get single employee |
+| POST | `/employees` | Create new employee |
+| PUT | `/employees/{id}` | Update employee |
+| DELETE | `/employees/{id}` | Delete employee |
+
+**Example Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "company_id": 1,
+      "full_name": "John Doe",
+      "email": "john@acme.com",
+      "salary": "50000.00"
+    }
+  ]
+}
+```
+
+#### Companies
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/companies` | Get all companies with stats |
+| GET | `/companies/{id}` | Get single company with stats |
+| POST | `/companies` | Create new company |
+| PUT | `/companies/{id}` | Update company |
+| DELETE | `/companies/{id}` | Delete company |
+
+**Example Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "ACME Corporation",
+      "employee_count": 4,
+      "average_salary": "57500.00"
+    }
+  ]
+}
+```
+
+#### CSV Upload
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/csv/upload` | Upload and import CSV file |
+
+**Request Body:**
+
+```json
+{
+  "csv_content": "Company Name,Employee Name,Email Address,Salary\nACME,John,john@acme.com,50000"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "total_rows": 1,
+    "companies_created": 1,
+    "employees_imported": 1,
+    "employees_failed": 0,
+    "errors": []
+  }
+}
+```
+
+### Database Schema
+
+**companies**
+
+- `id` (BIGINT, PK, AUTO_INCREMENT)
+- `name` (VARCHAR(191), UNIQUE)
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
+
+**employees**
+
+- `id` (BIGINT, PK, AUTO_INCREMENT)
+- `company_id` (BIGINT, FK → companies.id)
+- `full_name` (VARCHAR(191))
+- `email` (VARCHAR(254), UNIQUE)
+- `salary` (DECIMAL(12,2))
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
+
+**Indexes:**
+
+- `ix_employees_company` on `company_id`
+- `ix_employees_salary` on `salary`
+
 ## Development
+
+### Local Development (Without Docker)
+
+**Backend:**
+
+```bash
+cd backend
+composer install
+php -S localhost:8000 -t public
+```
+
+**Frontend:**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## Configuration
 
