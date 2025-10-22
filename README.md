@@ -7,7 +7,7 @@ A comprehensive employee and company management system with RESTful API and CSV 
 ### Backend
 
 - **PHP** - 8.4-fpm-alpine
-- **MariaDB** - 11.6.2
+- **MariaDB** - latest (12.0.2)
 
 ### Frontend
 
