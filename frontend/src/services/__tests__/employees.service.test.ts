@@ -48,7 +48,8 @@ describe('employees service', () => {
 
     const res = await updateEmployeeEmail(2, 'new@acme.com')
     expect(res.email).toBe('new@acme.com')
-    const [, opts] = g.fetch.mock.calls[0]
+    const calls = g.fetch.mock.calls
+    const [, opts] = calls[0] as [string, { method: string; body: string }]
     expect(opts.method).toBe('PUT')
     expect(JSON.parse(opts.body).email).toBe('new@acme.com')
   })
