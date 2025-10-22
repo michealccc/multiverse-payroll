@@ -1,11 +1,17 @@
 <script setup lang="ts">
-//
+import CompaniesSummary from '@/components/CompaniesSummary.vue'
+
 </script>
 
 <template>
-  <div>
-    <h2>Company</h2>
-  </div>
+  <section>
+    <div>
+      <h2>Companies</h2>
+
+      <CompaniesSummary />
+
+    </div>
+  </section>
 </template>
 
 <style scoped>

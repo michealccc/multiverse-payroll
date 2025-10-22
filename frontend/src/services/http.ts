@@ -8,6 +8,8 @@ export interface ApiResponse<T> {
 
 const BASE_URL = (import.meta?.env?.VITE_API_BASE as string) || '/api'
 
+console.log('API Base URL:', BASE_URL)
+
 export async function http<T>(
   path: string,
   options: { method?: HttpMethod; body?: unknown; headers?: Record<string, string> } = {}
