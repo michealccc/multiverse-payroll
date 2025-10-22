@@ -1,0 +1,8 @@
+# Environment variables
+.env
+
+# Database data
+mariadb_data/
+
+# Logs
+*.log
