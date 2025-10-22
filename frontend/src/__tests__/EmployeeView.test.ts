@@ -22,7 +22,6 @@ describe('EmployeeView', () => {
     await new Promise((r) => setTimeout(r, 0))
 
     const table = wrapper.get('[data-testid="employees-table"]')
-    expect(table.exists()).toBe(true)
     expect(table.text()).toContain('John Doe')
 
     const input = wrapper.get('input[aria-label="email-input"]')
