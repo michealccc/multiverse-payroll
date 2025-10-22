@@ -41,6 +41,17 @@ services:
     networks:
       - multiverse-network
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: multiverse_frontend
+    restart: unless-stopped
+    volumes:
+      - frontend_dist:/usr/share/nginx/html
+    networks:
+      - multiverse-network
+
   nginx:
     image: nginx:alpine
     container_name: multiverse_nginx
@@ -49,15 +60,18 @@ services:
       - "${APP_PORT:-9090}:80"
     volumes:
       - ./backend:/var/www/html
-      - ./frontend/dist:/var/www/frontend
+      - frontend_dist:/var/www/frontend:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - backend
+      - frontend
     networks:
       - multiverse-network
 
 volumes:
   db_data:
+    driver: local
+  frontend_dist:
     driver: local
 
 networks:
