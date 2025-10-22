@@ -27,8 +27,11 @@ onMounted(load)
     <div v-if="error" role="alert">{{ error }}</div>
     <ul v-else data-testid="companies-summary-list">
       <li v-for="c in companies" :key="c.id">
-        {{ c.name
-        }}<span v-if="c.employee_count !== undefined"> - {{ c.employee_count }} employees</span>
+        {{ c.name }}
+        <span v-if="c.employee_count !== undefined"> - {{ c.employee_count }} employees</span>
+        <span v-if="c.average_salary !== undefined && c.average_salary > 0">
+          - Average Salary: ${{ Number(c.average_salary).toLocaleString() }}
+        </span>
       </li>
     </ul>
   </div>
