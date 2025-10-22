@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Controllers\EmployeeController;
+use Controllers\CompanyController;
 use Database\Connection;
 
 header('Content-Type: application/json');
@@ -26,6 +27,7 @@ $pathParts = array_values($pathParts);
 
 $connection = new Connection();
 $employeeController = new EmployeeController($connection);
+$companyController = new CompanyController($connection);
 
 try
 {
@@ -133,6 +135,115 @@ try
             echo json_encode([
                 'success' => false,
                 'message' => 'Employee not found'
+            ]);
+        }
+        exit;
+    }
+
+    // Route: GET /companies - List all companies
+    if ($requestMethod === 'GET' && count($pathParts) === 1 && $pathParts[0] === 'companies')
+    {
+        $companies = $companyController->indexWithEmployeeCounts();
+        echo json_encode([
+            'success' => true,
+            'data' => $companies
+        ]);
+        exit;
+    }
+
+    // Route: GET /companies/{id} - Get single company
+    if ($requestMethod === 'GET' && count($pathParts) === 2 && $pathParts[0] === 'companies')
+    {
+        $id = (int)$pathParts[1];
+        $company = $companyController->showWithEmployeeCount($id);
+
+        if ($company === false)
+        {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Company not found'
+            ]);
+            exit;
+        }
+
+        echo json_encode([
+            'success' => true,
+            'data' => $company
+        ]);
+        exit;
+    }
+
+    // Route: POST /companies - Create new company
+    if ($requestMethod === 'POST' && count($pathParts) === 1 && $pathParts[0] === 'companies')
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($input['name']))
+        {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required field: name'
+            ]);
+            exit;
+        }
+
+        $company = $companyController->store($input);
+
+        http_response_code(201);
+        echo json_encode([
+            'success' => true,
+            'data' => $company
+        ]);
+        exit;
+    }
+
+    // Route: PUT /companies/{id} - Update company
+    if ($requestMethod === 'PUT' && count($pathParts) === 2 && $pathParts[0] === 'companies')
+    {
+        $id = (int)$pathParts[1];
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        $company = $companyController->update($id, $input);
+
+        if ($company === false)
+        {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Company not found'
+            ]);
+            exit;
+        }
+
+        echo json_encode([
+            'success' => true,
+            'data' => $company
+        ]);
+        exit;
+    }
+
+    // Route: DELETE /companies/{id} - Delete company
+    if ($requestMethod === 'DELETE' && count($pathParts) === 2 && $pathParts[0] === 'companies')
+    {
+        $id = (int)$pathParts[1];
+
+        $result = $companyController->destroy($id);
+
+        if ($result)
+        {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Company deleted successfully'
+            ]);
+        }
+        else
+        {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Company not found'
             ]);
         }
         exit;
