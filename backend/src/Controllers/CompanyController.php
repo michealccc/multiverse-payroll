@@ -73,6 +73,44 @@ class CompanyController
     }
 
     /**
+     * Get all companies with average salaries
+     */
+    public function indexWithAverageSalaries(): array
+    {
+        $stmt = $this->pdo->query(
+            "SELECT c.id, c.name,
+                    COUNT(e.id) as employee_count,
+                    COALESCE(AVG(e.salary), 0) as average_salary
+             FROM companies c
+             LEFT JOIN employees e ON c.id = e.company_id
+             GROUP BY c.id, c.name
+             ORDER BY c.id ASC"
+        );
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get single company with average salary
+     */
+    public function showWithAverageSalary(int $id): array|false
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT c.id, c.name,
+                    COUNT(e.id) as employee_count,
+                    COALESCE(AVG(e.salary), 0) as average_salary
+             FROM companies c
+             LEFT JOIN employees e ON c.id = e.company_id
+             WHERE c.id = ?
+             GROUP BY c.id, c.name"
+        );
+
+        $stmt->execute([$id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Create new company
      */
     public function store(array $data): array

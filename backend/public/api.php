@@ -142,10 +142,10 @@ try
         exit;
     }
 
-    // Route: GET /companies - List all companies
+    // Route: GET /companies - List all companies with average salaries
     if ($requestMethod === 'GET' && count($pathParts) === 1 && $pathParts[0] === 'companies')
     {
-        $companies = $companyController->indexWithEmployeeCounts();
+        $companies = $companyController->indexWithAverageSalaries();
         echo json_encode([
             'success' => true,
             'data' => $companies
@@ -153,11 +153,11 @@ try
         exit;
     }
 
-    // Route: GET /companies/{id} - Get single company
+    // Route: GET /companies/{id} - Get single company with average salary
     if ($requestMethod === 'GET' && count($pathParts) === 2 && $pathParts[0] === 'companies')
     {
         $id = (int)$pathParts[1];
-        $company = $companyController->showWithEmployeeCount($id);
+        $company = $companyController->showWithAverageSalary($id);
 
         if ($company === false)
         {
