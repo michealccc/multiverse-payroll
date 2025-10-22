@@ -17,6 +17,6 @@ export interface CsvUploadResponse {
 export async function uploadCsv(csvContent: string): Promise<CsvUploadResponse> {
   return http<CsvUploadResponse>('/csv/upload', {
     method: 'POST',
-    body: { csv: csvContent },
+    body: { csv_content: csvContent },
   })
 }
