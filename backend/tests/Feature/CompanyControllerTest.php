@@ -144,3 +144,42 @@ test('can list all companies with employee counts', function ()
         ->and(count($companies))->toBeGreaterThan(0)
         ->and($companies[0])->toHaveKeys(['id', 'name', 'employee_count']);
 });
+
+test('can list all companies with average salaries', function ()
+{
+    $companies = $this->controller->indexWithAverageSalaries();
+
+    expect($companies)->toBeArray()
+        ->and(count($companies))->toBeGreaterThan(0)
+        ->and($companies[0])->toHaveKeys(['id', 'name', 'employee_count', 'average_salary']);
+});
+
+test('can get company with average salary', function ()
+{
+    $pdo = $this->connection->getConnection();
+
+    // Get BingBong LLC which has 2 employees with salaries 50000 and 55000
+    $stmt = $pdo->query("SELECT id FROM companies WHERE name='BingBong LLC'");
+    $company = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $companyWithSalary = $this->controller->showWithAverageSalary($company['id']);
+
+    expect($companyWithSalary)->toBeArray()
+        ->and($companyWithSalary['name'])->toBe('BingBong LLC')
+        ->and($companyWithSalary['employee_count'])->toBeGreaterThanOrEqual(2)
+        ->and($companyWithSalary['average_salary'])->toBeGreaterThan(0)
+        ->and($companyWithSalary['average_salary'])->toBe(52500.0); // (50000 + 55000) / 2
+});
+
+test('company with no employees has average salary of 0', function ()
+{
+    // Create test company with no employees
+    $createData = ['name' => 'Test Company No Employees'];
+    $company = $this->controller->store($createData);
+
+    $companyWithSalary = $this->controller->showWithAverageSalary($company['id']);
+
+    expect($companyWithSalary)->toBeArray()
+        ->and($companyWithSalary['employee_count'])->toBe(0)
+        ->and($companyWithSalary['average_salary'])->toBe(0.0);
+});
