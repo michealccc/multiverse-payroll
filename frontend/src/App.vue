@@ -8,6 +8,9 @@ import { RouterView } from 'vue-router'
       <h1>Multiverse Payroll</h1>
       <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/company">Company</RouterLink>
+        <RouterLink to="/employee">Employee</RouterLink>
+        <RouterLink to="/csv-import">CSV Import</RouterLink>
       </nav>
     </header>
     <main>
