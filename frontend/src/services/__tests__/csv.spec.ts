@@ -31,7 +31,7 @@ describe('CSV Service', () => {
 
       expect(http).toHaveBeenCalledWith('/csv/upload', {
         method: 'POST',
-        body: { csv: csvContent },
+        body: { csv_content: csvContent },
       })
       expect(result).toEqual(mockResponse)
     })
