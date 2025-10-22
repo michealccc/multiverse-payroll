@@ -9,4 +9,3 @@ export interface Company {
 export async function getCompanies(): Promise<Company[]> {
   return http<Company[]>('/companies')
 }
-

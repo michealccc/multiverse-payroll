@@ -28,9 +28,7 @@ onMounted(load)
     <ul v-else data-testid="companies-summary-list">
       <li v-for="c in companies" :key="c.id">
         {{ c.name
-        }}<span v-if="c.employee_count !== undefined">
-          - {{ c.employee_count }} employees</span
-        >
+        }}<span v-if="c.employee_count !== undefined"> - {{ c.employee_count }} employees</span>
       </li>
     </ul>
   </div>

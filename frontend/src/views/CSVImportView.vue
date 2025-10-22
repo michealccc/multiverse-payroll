@@ -83,13 +83,9 @@ ACME Corporation,Jane Doe,janedoe@acme.com,55000</pre
           :disabled="isUploading"
         />
         <button @click="handleUpload" :disabled="!selectedFile || isUploading">
-          {{ isUploading ? "Uploading..." : "Upload CSV" }}
+          {{ isUploading ? 'Uploading...' : 'Upload CSV' }}
         </button>
-        <button
-          v-if="selectedFile || uploadResult"
-          @click="resetForm"
-          :disabled="isUploading"
-        >
+        <button v-if="selectedFile || uploadResult" @click="resetForm" :disabled="isUploading">
           Reset
         </button>
       </div>
@@ -102,9 +98,7 @@ ACME Corporation,Jane Doe,janedoe@acme.com,55000</pre
     <div v-if="uploadResult" class="result-section">
       <h3>Upload Results</h3>
       <div class="stats">
-        <div class="stat-item">
-          <strong>Total Rows:</strong> {{ uploadResult.total_rows }}
-        </div>
+        <div class="stat-item"><strong>Total Rows:</strong> {{ uploadResult.total_rows }}</div>
         <div class="stat-item success">
           <strong>Employees Imported:</strong> {{ uploadResult.employees_imported }}
         </div>
@@ -116,10 +110,7 @@ ACME Corporation,Jane Doe,janedoe@acme.com,55000</pre
         </div>
       </div>
 
-      <div
-        v-if="uploadResult.errors && uploadResult.errors.length > 0"
-        class="errors-list"
-      >
+      <div v-if="uploadResult.errors && uploadResult.errors.length > 0" class="errors-list">
         <h4>Validation Errors:</h4>
         <ul>
           <li v-for="(err, index) in uploadResult.errors" :key="index" class="error-item">

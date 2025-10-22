@@ -21,12 +21,14 @@ describe('companies service', () => {
       new Response(JSON.stringify({ success: true, data: companies }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-      })
+      }),
     )
 
     const res = await getCompanies()
     expect(res).toEqual(companies)
-    expect(g.fetch).toHaveBeenCalledWith(expect.stringMatching(/\/api\/companies$/), expect.any(Object))
+    expect(g.fetch).toHaveBeenCalledWith(
+      expect.stringMatching(/\/api\/companies$/),
+      expect.any(Object),
+    )
   })
 })
-

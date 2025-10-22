@@ -20,12 +20,15 @@ describe('employees service', () => {
       new Response(JSON.stringify({ success: true, data: employees }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-      })
+      }),
     )
 
     const res = await getEmployees()
     expect(res).toEqual(employees)
-    expect(g.fetch).toHaveBeenCalledWith(expect.stringMatching(/\/api\/employees$/), expect.any(Object))
+    expect(g.fetch).toHaveBeenCalledWith(
+      expect.stringMatching(/\/api\/employees$/),
+      expect.any(Object),
+    )
   })
 
   it('updates employee email', async () => {
@@ -40,7 +43,7 @@ describe('employees service', () => {
       new Response(JSON.stringify({ success: true, data: updated }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-      })
+      }),
     )
 
     const res = await updateEmployeeEmail(2, 'new@acme.com')
@@ -50,4 +53,3 @@ describe('employees service', () => {
     expect(JSON.parse(opts.body).email).toBe('new@acme.com')
   })
 })
-

@@ -17,11 +17,14 @@ describe('http service', () => {
       new Response(JSON.stringify({ success: true, data: { ok: true } }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-      })
+      }),
     )
     const res = await http<{ ok: boolean }>('/employees')
     expect(res.ok).toBe(true)
-    expect(g.fetch).toHaveBeenCalledWith(expect.stringMatching(/\/api\/employees$/), expect.any(Object))
+    expect(g.fetch).toHaveBeenCalledWith(
+      expect.stringMatching(/\/api\/employees$/),
+      expect.any(Object),
+    )
   })
 
   it('throws when API indicates failure (success=false)', async () => {
@@ -29,7 +32,7 @@ describe('http service', () => {
       new Response(JSON.stringify({ success: false, message: 'failed' }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-      })
+      }),
     )
     await expect(http('/employees')).rejects.toThrow(/failed/)
   })
@@ -39,4 +42,3 @@ describe('http service', () => {
     await expect(http('/employees')).rejects.toThrow(/HTTP 500/)
   })
 })
-

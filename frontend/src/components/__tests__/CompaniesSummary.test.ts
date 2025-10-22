@@ -21,4 +21,3 @@ describe('CompaniesSummary', () => {
     expect(list.text()).toContain('3')
   })
 })
-

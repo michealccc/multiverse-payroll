@@ -26,7 +26,8 @@ describe('CSV Service', () => {
 
       vi.mocked(http).mockResolvedValue(mockResponse)
 
-      const csvContent = 'Company Name,Employee Name,Email Address,Salary\nACME,John Doe,john@acme.com,50000'
+      const csvContent =
+        'Company Name,Employee Name,Email Address,Salary\nACME,John Doe,john@acme.com,50000'
       const result = await uploadCsv(csvContent)
 
       expect(http).toHaveBeenCalledWith('/csv/upload', {
@@ -48,7 +49,8 @@ describe('CSV Service', () => {
 
       vi.mocked(http).mockResolvedValue(mockResponse)
 
-      const csvContent = 'Company Name,Employee Name,Email Address,Salary\nACME,John,invalid-email,50000'
+      const csvContent =
+        'Company Name,Employee Name,Email Address,Salary\nACME,John,invalid-email,50000'
       const result = await uploadCsv(csvContent)
 
       expect(result.employees_failed).toBe(2)

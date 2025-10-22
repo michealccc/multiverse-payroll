@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import CompaniesSummary from '@/components/CompaniesSummary.vue'
-
 </script>
 
 <template>
@@ -9,7 +8,6 @@ import CompaniesSummary from '@/components/CompaniesSummary.vue'
       <h2>Companies</h2>
 
       <CompaniesSummary />
-
     </div>
   </section>
 </template>

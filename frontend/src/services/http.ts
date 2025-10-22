@@ -12,7 +12,7 @@ console.log('API Base URL:', BASE_URL)
 
 export async function http<T>(
   path: string,
-  options: { method?: HttpMethod; body?: unknown; headers?: Record<string, string> } = {}
+  options: { method?: HttpMethod; body?: unknown; headers?: Record<string, string> } = {},
 ): Promise<T> {
   const url = path.startsWith('http') ? path : `${BASE_URL}${path}`
   const { method = 'GET', body, headers = {} } = options
@@ -37,4 +37,3 @@ export async function http<T>(
   }
   return (json?.data as T) ?? (json as unknown as T)
 }
-

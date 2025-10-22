@@ -25,7 +25,6 @@ async function load() {
   }
 }
 
-
 async function onEdit(emp: Employee) {
   editingId.value = emp.id
   editingEmail.value = emp.email
@@ -46,6 +45,11 @@ async function onSave(emp: Employee) {
   } catch {
     emp.email = prev
   }
+}
+
+function onCancel() {
+  editingId.value = null
+  emailError.value = null
 }
 
 onMounted(load)
@@ -72,7 +76,11 @@ onMounted(load)
             <td>
               <template v-if="editingId === e.id">
                 <input v-model="editingEmail" type="email" aria-label="email-edit-input" />
-                <p v-if="editingId === e.id && !isValidEmail(editingEmail)" data-testid="email-error" role="alert">
+                <p
+                  v-if="editingId === e.id && !isValidEmail(editingEmail)"
+                  data-testid="email-error"
+                  role="alert"
+                >
                   Please enter a valid email.
                 </p>
               </template>
@@ -83,8 +91,14 @@ onMounted(load)
             <td>{{ Number(e.salary).toLocaleString() }}</td>
             <td>
               <template v-if="editingId === e.id">
-                <button aria-label="save-email" :disabled="!isValidEmail(editingEmail)" @click="onSave(e)">Save</button>
-                <button aria-label="cancel-email" @click="editingId = null; emailError = null">Cancel</button>
+                <button
+                  aria-label="save-email"
+                  :disabled="!isValidEmail(editingEmail)"
+                  @click="onSave(e)"
+                >
+                  Save
+                </button>
+                <button aria-label="cancel-email" @click="onCancel">Cancel</button>
               </template>
               <template v-else>
                 <button aria-label="edit-email" @click="onEdit(e)">Edit</button>

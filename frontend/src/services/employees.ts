@@ -17,4 +17,3 @@ export async function getEmployees(): Promise<Employee[]> {
 export async function updateEmployeeEmail(id: number, email: string): Promise<Employee> {
   return http<Employee>(`/employees/${id}`, { method: 'PUT', body: { email } })
 }
-
