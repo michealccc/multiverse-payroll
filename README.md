@@ -2,21 +2,22 @@
 
 A comprehensive employee and company management system with RESTful API and CSV import capabilities.
 
-## Tech Stack Version Information
+## Last Tested Using
 
 ### Backend
 
-- **PHP** - 8.4.13
-- **MariaDB** - 12.0.2
+- **PHP** - 8.4-fpm-alpine
+- **MariaDB** - 11.6.2
 
 ### Frontend
 
 - **Vue** - 3.5.22
+- **Node** - 22-alpine
 
 ### Infrastructure
 
-- **Docker** - 28.5.1
-- **Nginx** - 1.29.2
+- **Docker** - 20.10+
+- **Nginx** - 1.27.3-alpine
 
 ## Quick Start
 
