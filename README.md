@@ -294,6 +294,29 @@ DB_HOST=db
 
 # Application
 APP_PORT=9090
+
+# Development
+SEED_DATA=true  # Set to 'true' to load sample data for development/testing
+```
+
+### Seed Data
+
+For development and testing, you can enable seed data by setting `SEED_DATA=true` in your `.env` file:
+
+```bash
+SEED_DATA=true
+```
+
+**Seed data includes:**
+
+- 4 sample companies (BingBong LLC, ACME Corporation, Stark Industries, Wayne Enterprises)
+- 14 sample employees with varying salaries
+
+**Note:** Seed data is only loaded when creating a fresh database. To reload seed data:
+
+```bash
+docker-compose down -v  # Remove volumes
+docker-compose up -d    # Recreate with seed data
 ```
 
 ## Troubleshooting
