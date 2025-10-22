@@ -36,14 +36,4 @@ CREATE TABLE employees (
   CONSTRAINT fk_employees_company FOREIGN KEY (company_id) REFERENCES companies (id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
--- Seed Data
-INSERT INTO companies (name) VALUES
-  ('BingBong LLC');
-
--- BingBong LLC employees
-INSERT INTO employees (company_id, full_name, email, salary)
-SELECT id, 'Bing Bong', 'bingbong@bingbong.com', 50000.00 FROM companies WHERE name='BingBong LLC';
-INSERT INTO employees (company_id, full_name, email, salary)
-SELECT id, 'Bong Bing', 'bongbing@bingbong.com', 55000.00 FROM companies WHERE name='BingBong LLC';
-
 -- End of initialization script
