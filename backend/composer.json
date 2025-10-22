@@ -1,0 +1,25 @@
+{
+  "name": "multiverse/payroll-backend",
+  "description": "Multiverse Payroll Backend API",
+  "type": "project",
+  "require-dev": {
+    "pestphp/pest": "^4.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Multiverse\\PayrollBackend\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Micheal C.",
+      "email": "michealccc-github.ontic@aleeas.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}
