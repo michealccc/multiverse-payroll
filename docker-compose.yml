@@ -41,6 +41,20 @@ services:
     networks:
       - multiverse-network
 
+  nginx:
+    image: nginx:alpine
+    container_name: multiverse_nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-9090}:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - multiverse-network
+
 volumes:
   db_data:
     driver: local
