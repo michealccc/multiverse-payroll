@@ -24,12 +24,18 @@ describe('EmployeeView', () => {
     const table = wrapper.get('[data-testid="employees-table"]')
     expect(table.text()).toContain('John Doe')
 
-    const input = wrapper.get('input[aria-label="email-input"]')
+    // Click edit button to enter edit mode
+    await wrapper.get('button[aria-label="edit-email"]').trigger('click')
+
+    const input = wrapper.get('input[aria-label="email-edit-input"]')
     expect((input.element as HTMLInputElement).value).toBe('old@acme.com')
     await input.setValue('new@acme.com')
-    await input.trigger('change')
+
+    // Click save button
+    await wrapper.get('button[aria-label="save-email"]').trigger('click')
 
     await new Promise((r) => setTimeout(r, 0))
-    expect((wrapper.get('input[aria-label="email-input"]').element as HTMLInputElement).value).toBe('new@acme.com')
+    // Back to read mode with updated text
+    expect(wrapper.get('[aria-label="email-text"]').text()).toBe('new@acme.com')
   })
 })
