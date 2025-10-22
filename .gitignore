@@ -6,3 +6,33 @@ mariadb_data/
 
 # Logs
 *.log
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# Backend (PHP)
+/backend/vendor/
+/backend/composer.lock
+
+# Frontend (Node/Vue)
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.vitest/
+/frontend/coverage/
+/frontend/*.log
+/frontend/.npm
+/frontend/.eslintcache
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Docker volumes
+/docker-volumes/
