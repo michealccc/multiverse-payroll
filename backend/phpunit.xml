@@ -3,16 +3,25 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
+         cacheDirectory=".phpunit.cache"
 >
     <testsuites>
-        <testsuite name="Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
     <source>
         <include>
-            <directory>app</directory>
             <directory>src</directory>
         </include>
     </source>
+    <php>
+        <env name="DB_HOST" value="db"/>
+        <env name="DB_NAME" value="multiverse_db"/>
+        <env name="DB_USER" value="multiverse_user"/>
+        <env name="DB_PASSWORD" value="multiverse_password"/>
+    </php>
 </phpunit>
