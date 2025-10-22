@@ -335,3 +335,44 @@ docker-compose up -d
 ```
 
 **Warning:** This deletes all data!
+
+## **Future Improvements**
+
+### **1. Code & Architecture**
+
+- Extract reusable components (EmployeeTable, CSVUploadForm)
+- Move validation and API logic into composables/services
+- Consider Pinia for state management
+
+### **2. CRUD & Validation**
+
+- Add employee creation, editing (all fields), and deletion
+- Add company management (add/edit/delete)
+- Client-side and server-side validation (email format, salary limits, duplicates)
+
+### **3. Search, Filter & Sort**
+
+- Search employees by name/email
+- Filter by company
+- Sort table columns (name, salary, company)
+
+### **4. UI/UX Enhancements**
+
+- Toast notifications for success/error
+- Responsive layout
+- CSV drag-and-drop upload with preview
+
+### **5. Export**
+
+- Export employee and company data to CSV or Excel
+
+### **6. Authentication & Security**
+
+- Basic user login  
+- Role-based access (admin/viewer)
+- CSRF/XSS protection and input sanitization
+
+### **7. DevOps & Testing**
+
+- GitHub Actions CI/CD
+- Unit and integration tests for core features
