@@ -32,7 +32,7 @@ export async function http<T>(
   }
 
   const json = (await res.json()) as ApiResponse<T>
-  if ((json as any)?.success === false) {
+  if ('success' in json && json.success === false) {
     throw new Error(json.message || 'API error')
   }
   return (json?.data as T) ?? (json as unknown as T)

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { getEmployees, updateEmployeeEmail, type Employee } from '@/services/employees'
 
-const g: any = globalThis
+const g = globalThis as typeof globalThis & { fetch: ReturnType<typeof vi.fn> }
 
 describe('employees service', () => {
   beforeEach(() => {

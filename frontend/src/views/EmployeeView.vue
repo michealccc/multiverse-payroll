@@ -18,23 +18,13 @@ async function load() {
   error.value = null
   try {
     employees.value = await getEmployees()
-  } catch (e: any) {
-    error.value = e?.message || 'Failed to load employees'
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : 'Failed to load employees'
   } finally {
     loading.value = false
   }
 }
 
-async function saveEmail(emp: Employee, email: string) {
-  const prev = emp.email
-  emp.email = email
-  try {
-    const updated = await updateEmployeeEmail(emp.id, email)
-    emp.email = updated.email
-  } catch (e) {
-    emp.email = prev
-  }
-}
 
 async function onEdit(emp: Employee) {
   editingId.value = emp.id
@@ -53,7 +43,7 @@ async function onSave(emp: Employee) {
     const updated = await updateEmployeeEmail(emp.id, editingEmail.value)
     emp.email = updated.email
     editingId.value = null
-  } catch (e) {
+  } catch {
     emp.email = prev
   }
 }
